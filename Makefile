@@ -5,14 +5,14 @@ LDFLAGSSTRING +=-X main.GitCommit=$(GITCOMMIT)
 LDFLAGSSTRING +=-X main.GitDate=$(GITDATE)
 LDFLAGS := -ldflags "$(LDFLAGSSTRING)"
 
-VRF_ABI_ARTIFACT := ./abis/VRFCoodinatorV2.sol
+VRF_ABI_ARTIFACT := ./abis/VRFCoodinatorV2.sol/VRFCoordinatorV2.json
 
 
 my-vrf-oracle:
 	env GO111MODULE=on go build -v $(LDFLAGS) ./cmd/my-vrf-oracle
 
 clean:
-	rm my-vrf-oracle
+	rm cmd/my-vrf-oracle
 
 test:
 	go test -v ./...
@@ -33,8 +33,8 @@ binding-vrf:
 		| jq .abi \
 		| abigen --pkg bindings \
 		--abi - \
-		--out bindings/myVrfOracle.go \
-		--type MyVrfOracle \
+		--out bindings/VRFCoordinatorV2.go \
+		--type VRFCoordinatorV2 \
 		--bin $(temp)
 
 		rm $(temp)
